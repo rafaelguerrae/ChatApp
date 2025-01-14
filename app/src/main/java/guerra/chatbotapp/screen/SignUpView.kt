@@ -1,5 +1,7 @@
 package guerra.chatbotapp.screen
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,9 +25,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import guerra.chatbotapp.R
+import guerra.chatbotapp.viewmodel.AuthViewModel
 
 @Composable
-fun SignUpView() {
+fun SignUpView(
+    onNavigateToLogin: () -> Unit,
+    authViewModel: AuthViewModel,
+    context: Context
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var firstName by remember { mutableStateOf("") }
@@ -73,6 +80,8 @@ fun SignUpView() {
         )
         Button(
             onClick = {
+                authViewModel.signUp(email,password,firstName,lastName)
+                Toast.makeText(context, "Sign up has been done successfully.", Toast.LENGTH_SHORT).show()
                 email = ""
                 password = ""
                 firstName = ""
@@ -91,7 +100,7 @@ fun SignUpView() {
             )
 
             Text(text = "Sign in.",
-                modifier = Modifier.padding(start = 4.dp).clickable{},
+                modifier = Modifier.padding(start = 4.dp).clickable{ onNavigateToLogin() },
                 colorResource(R.color.purple_500))
         }
     }
