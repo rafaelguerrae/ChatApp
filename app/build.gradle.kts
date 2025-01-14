@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -48,11 +49,18 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
 
 
-    implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.2")
 
     implementation("androidx.compose.ui:ui:1.6.0-alpha08")
     implementation("androidx.compose.material:material:1.6.0-alpha08")
     implementation("androidx.compose.ui:ui-tooling-preview:1.6.0-alpha08")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
