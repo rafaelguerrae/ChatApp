@@ -15,9 +15,9 @@ fun NavigationGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.SignupScreen.route
+        startDestination = Screen.SignUpScreen.route
     ) {
-        composable(Screen.SignupScreen.route) {
+        composable(Screen.SignUpScreen.route) {
             SignUpView(
                 onNavigateToLogin = { navController.navigate(Screen.LoginScreen.route) },
                 authViewModel = authViewModel,
@@ -26,10 +26,15 @@ fun NavigationGraph(
         }
         composable(Screen.LoginScreen.route) {
             LoginView(
-                onNavigateToSignUp = { navController.navigate(Screen.SignupScreen.route) } ,
+                onNavigateToSignUp = { navController.navigate(Screen.SignUpScreen.route) } ,
                 authViewModel = authViewModel,
                 context = context
-            )
+            ){
+                navController.navigate(Screen.ChatRoomsScreen.route)
+            }
+        }
+        composable(Screen.ChatRoomsScreen.route){
+            ChatRoomScreen()
         }
     }
 }

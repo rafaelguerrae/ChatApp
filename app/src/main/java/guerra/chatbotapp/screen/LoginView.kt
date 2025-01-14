@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,19 +28,23 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import guerra.chatbotapp.R
+import guerra.chatbotapp.data.Result
 import guerra.chatbotapp.viewmodel.AuthViewModel
 
 @Composable
 fun LoginView(
     onNavigateToSignUp: () -> Unit,
     authViewModel: AuthViewModel,
-    context: Context
+    context: Context,
+    onSignInSuccess: () -> Unit
 ) {
 
     var email by remember { mutableStateOf("") }
     var password by remember {
         mutableStateOf("")
     }
+
+    val result by authViewModel.authResult.observeAsState()
 
     Column(
         modifier = Modifier
@@ -68,7 +73,19 @@ fun LoginView(
 
         Button(
             onClick = {
-                Toast.makeText(context, "Login has been done successfully.", Toast.LENGTH_SHORT).show()
+                authViewModel.login(email, password)
+                when (result) {
+                    is Result.Success->{
+                        onSignInSuccess()
+                        Toast.makeText(context, "Login has been done successfully.", Toast.LENGTH_SHORT).show()
+                    }
+                    is Result.Error ->{
+                        Toast.makeText(context, "Firebase Error.", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(context, "Error.", Toast.LENGTH_SHORT).show()
+                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()

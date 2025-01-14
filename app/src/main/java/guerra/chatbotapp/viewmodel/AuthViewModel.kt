@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import guerra.chatbotapp.data.Injection
 import guerra.chatbotapp.data.Result
-import guerra.chatbotapp.data.UserRepository
 import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel(){
@@ -30,4 +29,9 @@ class AuthViewModel : ViewModel(){
         }
     }
 
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            _authResult.value = userRepository.login(email, password)
+        }
+    }
 }
