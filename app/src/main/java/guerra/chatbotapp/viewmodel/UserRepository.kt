@@ -1,5 +1,6 @@
 package guerra.chatbotapp.viewmodel
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import guerra.chatbotapp.data.Result
@@ -16,6 +17,7 @@ class UserRepository(
         firstName: String,
         lastName: String
     ): Result<Boolean> =
+        
         try {
             auth.createUserWithEmailAndPassword(email, password).await()
 
@@ -33,6 +35,7 @@ class UserRepository(
     suspend fun login(email: String, password: String): Result<Boolean> =
         try {
             auth.signInWithEmailAndPassword(email, password).await()
+            Log.d("UserRepository Main", "signInWithEmailAndPassword")
             Result.Success(true)
         } catch (e: Exception) {
             Result.Error(e)

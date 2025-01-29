@@ -1,6 +1,8 @@
 package guerra.chatbotapp.screen
 
 import android.content.Context
+import android.util.Log
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -46,6 +50,8 @@ fun LoginView(
 
     val result by authViewModel.authResult.observeAsState()
 
+    var isLoading by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,37 +79,57 @@ fun LoginView(
 
         Button(
             onClick = {
-                authViewModel.login(email, password)
-                when (result) {
-                    is Result.Success->{
-                        onSignInSuccess()
-                        Toast.makeText(context, "Login has been done successfully.", Toast.LENGTH_SHORT).show()
-                    }
-                    is Result.Error ->{
-                        Toast.makeText(context, "Firebase Error.", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        Toast.makeText(context, "Error.", Toast.LENGTH_SHORT).show()
-                    }
+                if (email.isEmpty() && password.isEmpty()) Toast.makeText(context, "Email and Password are Empty", Toast.LENGTH_SHORT).show()
+                else if (email.isEmpty()) Toast.makeText(context, "Email is Empty", Toast.LENGTH_SHORT).show()
+                else if (password.isEmpty()) Toast.makeText(context, "Password is Empty", Toast.LENGTH_SHORT).show()
+                else {
+                    authViewModel.login(email.trim(), password)
+                    isLoading = true
                 }
             },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(60.dp)
                 .padding(8.dp)
         ) {
-            Text("Login")
+            if (!isLoading) Text("Sign In")
+            else CircularProgressIndicator(
+                modifier = Modifier.width(24.dp),
+                colorResource(R.color.white)
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Row {
-            Text("Don't have an account?"
+            Text(
+                "Don't have an account?"
             )
 
-            Text(text = "Sign up.",
-                modifier = Modifier.padding(start = 4.dp).clickable{ onNavigateToSignUp() },
+            Text(
+                text = "Sign up.",
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .clickable { onNavigateToSignUp() },
                 colorResource(R.color.purple_500)
             )
+        }
+    }
+
+    result?.let {
+        when (it) {
+            is Result.Success -> {
+                onSignInSuccess()
+                Toast.makeText(context, "Logged In Successfully", Toast.LENGTH_SHORT).show()
+                isLoading = false
+                authViewModel.clearResult()
+            }
+
+            is Result.Error -> {
+                Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
+                isLoading = false
+                authViewModel.clearResult()
+            }
         }
     }
 }

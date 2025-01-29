@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import guerra.chatbotapp.screen.NavigationGraph
 import guerra.chatbotapp.ui.theme.ChatbotAppTheme
 import guerra.chatbotapp.viewmodel.AuthViewModel
+import guerra.chatbotapp.viewmodel.RoomViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             val authViewModel: AuthViewModel = viewModel()
+            val roomViewModel: RoomViewModel = viewModel()
             val context = LocalContext.current
 
             ChatbotAppTheme {
@@ -36,6 +38,7 @@ class MainActivity : ComponentActivity() {
                     NavigationGraph(
                         navController = navController,
                         authViewModel = authViewModel,
+                        roomViewModel = roomViewModel,
                         context = context
                     )
                 }

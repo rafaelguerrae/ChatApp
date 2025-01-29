@@ -1,5 +1,6 @@
 package guerra.chatbotapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,8 +21,8 @@ class AuthViewModel : ViewModel(){
         )
     }
 
-    private val _authResult = MutableLiveData<Result<Boolean>>()
-    val authResult: LiveData<Result<Boolean>> get() = _authResult
+    private val _authResult = MutableLiveData<Result<Boolean>?>()
+    val authResult: LiveData<Result<Boolean>?> get() = _authResult
 
     fun signUp(email: String, password: String, firstName: String, lastName: String) {
         viewModelScope.launch {
@@ -32,6 +33,11 @@ class AuthViewModel : ViewModel(){
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _authResult.value = userRepository.login(email, password)
+            Log.d("AuthViewModel Main", "$email $password")
         }
+    }
+
+    fun clearResult(){
+        _authResult.value = null
     }
 }

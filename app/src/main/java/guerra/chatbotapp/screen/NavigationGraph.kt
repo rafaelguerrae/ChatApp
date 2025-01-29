@@ -6,11 +6,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import guerra.chatbotapp.viewmodel.AuthViewModel
+import guerra.chatbotapp.viewmodel.RoomViewModel
 
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
     authViewModel: AuthViewModel,
+    roomViewModel: RoomViewModel,
     context: Context
 ) {
     NavHost(
@@ -34,7 +36,10 @@ fun NavigationGraph(
             }
         }
         composable(Screen.ChatRoomsScreen.route){
-            ChatRoomScreen()
+            ChatRoomScreen(
+                roomViewModel = roomViewModel,
+                context = context
+            )
         }
     }
 }
