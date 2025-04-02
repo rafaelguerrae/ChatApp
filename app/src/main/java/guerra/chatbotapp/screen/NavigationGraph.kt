@@ -29,12 +29,13 @@ fun NavigationGraph(
         }
         composable(Screen.LoginScreen.route) {
             LoginView(
-                onNavigateToSignUp = { navController.navigate(Screen.SignUpScreen.route) } ,
+                onNavigateToSignUp = {  navController.popBackStack()} ,
                 authViewModel = authViewModel,
-                context = context
-            ){
-                navController.popBackStack()
-            }
+                context = context,
+                onSignInSuccess = {
+                    navController.navigate(Screen.ChatRoomsScreen.route)
+                }
+            )
         }
         composable(Screen.ChatRoomsScreen.route){
             ChatRoomScreen(

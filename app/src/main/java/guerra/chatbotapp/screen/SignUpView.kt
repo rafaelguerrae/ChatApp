@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -28,8 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import guerra.chatbotapp.R
 import guerra.chatbotapp.viewmodel.AuthViewModel
 
@@ -59,7 +62,9 @@ fun SignUpView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(painter = logoId, contentDescription = "Logo")
+            Image(painter = logoId, contentDescription = "Logo", modifier = Modifier.size(100.dp))
+
+            Spacer(modifier = Modifier.size(4.dp))
 
             OutlinedTextField(
                 value = email,
@@ -111,7 +116,7 @@ fun SignUpView(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Text("Sign Up")
+                Text(text = "Sign up", fontWeight = FontWeight.Bold, fontSize = 20.sp, color = MaterialTheme.colorScheme.onTertiary)
             }
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -122,10 +127,11 @@ fun SignUpView(
 
                 Text(
                     text = "Sign in.",
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .padding(start = 4.dp)
                         .clickable { onNavigateToLogin() },
-                    colorResource(R.color.purple_500)
+                    color = MaterialTheme.colorScheme.primary
                 )
 
             }

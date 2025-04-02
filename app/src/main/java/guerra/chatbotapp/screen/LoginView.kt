@@ -2,8 +2,10 @@ package guerra.chatbotapp.screen
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -31,8 +34,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import guerra.chatbotapp.R
 import guerra.chatbotapp.data.Result
 import guerra.chatbotapp.viewmodel.AuthViewModel
@@ -44,7 +50,7 @@ fun LoginView(
     context: Context,
     onSignInSuccess: () -> Unit
 ) {
-
+    val logoId = if(isSystemInDarkTheme()) painterResource(id = R.drawable.ic_text_white) else painterResource(id = R.drawable.ic_text)
     var email by remember { mutableStateOf("") }
     var password by remember {
         mutableStateOf("")
@@ -60,6 +66,8 @@ fun LoginView(
             .background(color = MaterialTheme.colorScheme.background)
     ) { padding ->
 
+
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -68,7 +76,7 @@ fun LoginView(
             horizontalAlignment = Alignment.Start
         ) {
             Icon(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.size(20.dp).padding(8.dp).clickable { },
                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                 contentDescription = "Back"
             )
@@ -79,6 +87,12 @@ fun LoginView(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
+
+                Image(painter = logoId, contentDescription = "Logo", modifier = Modifier.size(100.dp))
+
+                Spacer(modifier = Modifier.size(4.dp))
+
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -124,7 +138,8 @@ fun LoginView(
                         .height(60.dp)
                         .padding(8.dp)
                 ) {
-                    if (!isLoading) Text("Sign In")
+                    if (!isLoading)
+                        Text(text = "Sign in", fontWeight = FontWeight.Bold, fontSize = 20.sp, color = MaterialTheme.colorScheme.onTertiary)
                     else CircularProgressIndicator(
                         modifier = Modifier.width(24.dp),
                         colorResource(R.color.white)
@@ -140,10 +155,11 @@ fun LoginView(
 
                     Text(
                         text = "Sign up.",
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .padding(start = 4.dp)
                             .clickable { onNavigateToSignUp() },
-                        colorResource(R.color.purple_500)
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }

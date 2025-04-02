@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 import guerra.chatbotapp.screen.NavigationGraph
 import guerra.chatbotapp.ui.theme.ChatbotAppTheme
 import guerra.chatbotapp.viewmodel.AuthViewModel
@@ -39,7 +40,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         authViewModel = authViewModel,
                         roomViewModel = roomViewModel,
-                        context = context
+                        context = context,
+                        isLoggedIn = FirebaseAuth.getInstance().currentUser != null
                     )
                 }
             }
