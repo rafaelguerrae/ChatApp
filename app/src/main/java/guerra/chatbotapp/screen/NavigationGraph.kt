@@ -13,11 +13,12 @@ fun NavigationGraph(
     navController: NavHostController,
     authViewModel: AuthViewModel,
     roomViewModel: RoomViewModel,
-    context: Context
+    context: Context,
+    isLoggedIn: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.SignUpScreen.route
+        startDestination = if(isLoggedIn) Screen.ChatRoomsScreen.route else Screen.SignUpScreen.route
     ) {
         composable(Screen.SignUpScreen.route) {
             SignUpView(
@@ -32,7 +33,7 @@ fun NavigationGraph(
                 authViewModel = authViewModel,
                 context = context
             ){
-                navController.navigate(Screen.ChatRoomsScreen.route)
+                navController.popBackStack()
             }
         }
         composable(Screen.ChatRoomsScreen.route){

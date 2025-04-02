@@ -9,24 +9,39 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Blue,
+    secondary = Grey,
+    tertiary = DarkGrey,
+    background = DarkBackground,
+    surface = DarkSurface,
+    onPrimary = White,
+    onSecondary = White,
+    onTertiary = Black,
+    onBackground = White,
+    onSurface = White
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Blue,
+    secondary = Grey,
+    tertiary = LightGrey,
+    background = LightBackground,
+    surface = LightSurface,
+    onPrimary = White,
+    onSecondary = Black,
+    onTertiary = White,
+    onBackground = Black,
+    onSurface = Black
 )
 
 @Composable
 fun ChatbotAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
