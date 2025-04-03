@@ -12,14 +12,10 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel(){
 
-    private val userRepository: UserRepository
-
-    init {
-        userRepository = UserRepository(
-            FirebaseAuth.getInstance(),
-            Injection.instance()
-        )
-    }
+    private val userRepository: UserRepository = UserRepository(
+        FirebaseAuth.getInstance(),
+        Injection.instance()
+    )
 
     private val _authResult = MutableLiveData<Result<Boolean>?>()
     val authResult: LiveData<Result<Boolean>?> get() = _authResult
@@ -33,7 +29,6 @@ class AuthViewModel : ViewModel(){
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _authResult.value = userRepository.login(email, password)
-            Log.d("AuthViewModel Main", "$email $password")
         }
     }
 
